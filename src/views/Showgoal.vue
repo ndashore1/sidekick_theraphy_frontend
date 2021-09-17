@@ -19,11 +19,11 @@
                 <td>{{ goal_detail.plan_of_care.id }}</td>
                 <td>
                   <div v-for="singlenote, notename in goal_detail.note" :key="singlenote.noteName">
-                    <span v-for="details in singlenote.observation" :key="details"> 
-                      <button v-for="single in details.split('')" :key="single" class="" style="margin-right: 5px;">{{single}}</button>
-                      
-                    </span>
                     {{ notename }}
+                    <span v-for="details in singlenote.observation" :key="details"> 
+                      <button v-for="single in details.split('')" :key="single" class="" style="margin-right: 5px;">{{single}}</button>                      
+                    </span> 
+                    <p>{{singlenote.errors}}</p>                   
                   </div>
                 </td>
             </tr>
