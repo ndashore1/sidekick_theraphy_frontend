@@ -45,8 +45,8 @@
                   <input name="note_list" v-model="form.note_list[index]" class="note-list">
                 </td>
                 <td>
-                  <button @click="handleInput(index, '+')">+</button>
-                  <button @click="handleInput(index, '-')">-</button>
+                  <button type="button" @click="handleInput(index, '+')">+</button>
+                  <button type="button" @click="handleInput(index, '-')">-</button>
                 </td>
                 <td>
                   <input name="note_list_oberver" v-model="form.note_list_oberver[index].observation">
@@ -132,8 +132,8 @@ export default {
         else{
           observation = '';
         }
-        
-        note_result[ note.replace(/\s{2,}/g, '').trim() ]= {observation:''+observation, errors: this.form.added_note_error[index]}
+        // note_result[ note.replace(/\s{2,}/g, '').trim() ]= {observation:''+observation, errors: this.form.added_note_error[index]}
+        note_result[ note.replace(/\s{2,}/g, '').trim() ]= {observation:''+observation, errors: this.form.added_note_error[index].errors}
         //note: {"sun" => {observation: "-+"},  seed: {observation: "+", errors: "swim, kick, catch, throw"}}
 
 
@@ -151,7 +151,7 @@ export default {
 
       var config = {
         method: 'patch',
-        url: 'https://sidekiq-therapy-api.herokuapp.com/api/v1/plan_of_cares/'+this.form.plan_of_cares+'/goals/'+this.$route.query.id,
+        url: axios.defaults.baseURL+'api/v1/plan_of_cares/'+this.form.plan_of_cares+'/goals/'+this.$route.query.id,
         headers: { 
           'X-AUTH-TOKEN': this.$store.getters.StateUserToken, 
           'Content-Type': 'application/json'
@@ -173,7 +173,7 @@ export default {
     async ShowGoal() {
       var config = {
         method: 'get',
-        url: 'https://sidekiq-therapy-api.herokuapp.com/api/v1/plan_of_cares/'+this.$route.query.plan_id+'/goals/'+this.$route.query.id,
+        url: axios.defaults.baseURL+'api/v1/plan_of_cares/'+this.$route.query.plan_id+'/goals/'+this.$route.query.id,
         headers: { 
           'X-AUTH-TOKEN': this.$store.getters.StateUserToken
         }
@@ -202,7 +202,7 @@ export default {
     async GetPlans() {
       var config = {
         method: 'get',
-        url: 'https://sidekiq-therapy-api.herokuapp.com/api/v1/plan_of_cares',
+        url: axios.defaults.baseURL+'api/v1/plan_of_cares',
         headers: { 
           'X-AUTH-TOKEN': this.$store.getters.StateUserToken
         }

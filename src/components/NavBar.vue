@@ -3,13 +3,13 @@
     <router-link to="/">Home</router-link> |
     <span v-if="isLoggedIn">
       <!-- <router-link v-if="loginType === 'therapists'" to="/goals">Goals</router-link> | -->
-      <router-link to="/goals">Goals</router-link> |
+      <router-link v-if="loginType === 'therapists'"  to="/goals">Goals</router-link><span v-if="loginType === 'therapists'"> | </span>
       <router-link to="/plan-of-care">Plan Of Care</router-link> |
       <router-link v-if="loginType === 'patient'" to="/switch-therapist">Switch Therapist</router-link><span v-if="loginType === 'patient'"> | </span>
       <a @click="logout">Logout</a>
     </span>
     <span v-else> 
-      <router-link to="/register">Register</router-link> |
+      <!-- <router-link to="/register">Register</router-link> | -->
       <router-link to="/login">Login</router-link>
     </span>
   </div>

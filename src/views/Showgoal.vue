@@ -19,10 +19,11 @@
                 <td>{{ goal_detail.plan_of_care.id }}</td>
                 <td>
                   <div v-for="singlenote, notename in goal_detail.note" :key="singlenote.noteName">
-                    <p v-for="details in singlenote" :key="details"> 
+                    <span v-for="details in singlenote.observation" :key="details"> 
                       <button v-for="single in details.split('')" :key="single" class="" style="margin-right: 5px;">{{single}}</button>
-                      {{ notename }}
-                    </p>
+                      
+                    </span>
+                    {{ notename }}
                   </div>
                 </td>
             </tr>
@@ -54,7 +55,7 @@ export default {
     async ShowGoal() {
       var config = {
         method: 'get',
-        url: 'https://sidekiq-therapy-api.herokuapp.com/api/v1/plan_of_cares/'+this.$route.query.plan_id+'/goals/'+this.$route.query.id,
+        url: axios.defaults.baseURL+'api/v1/plan_of_cares/'+this.$route.query.plan_id+'/goals/'+this.$route.query.id,
         headers: { 
           'X-AUTH-TOKEN': this.$store.getters.StateUserToken
         }

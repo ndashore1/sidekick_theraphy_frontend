@@ -5,21 +5,23 @@
     </div>
     <div>
       <form @submit.prevent="handleSubmit">
-        <div class="alert alert-primary" role="alert" v-if="planAdded">{{ planAdded }}</div>
-        <div>
-          <label for="name">Plan Name:</label>
-          <input type="text" name="goal_name" v-model="form.name" />
+        <div v-if="loginType === 'patient'">
+          <div class="alert alert-primary" role="alert" v-if="planAdded">{{ planAdded }}</div>
+          <div>
+            <label for="name">Plan Name:</label>
+            <input type="text" name="goal_name" v-model="form.name" />
+          </div>
+          <div>
+            <label for="therapist_id">Select Therapist:</label>
+            <!-- <input type="text" name="therapist_id" v-model="form.therapist_id" /> -->
+            <select name="therapist_id" v-model="form.therapist_id">
+              <option v-for="therapist in therapistlist" :key="therapist.id" :value="therapist.id">
+                {{ therapist.name }}
+              </option>
+            </select>
+          </div>
+          <button type="submit">Submit</button>
         </div>
-        <div>
-          <label for="therapist_id">Select Therapist:</label>
-          <!-- <input type="text" name="therapist_id" v-model="form.therapist_id" /> -->
-          <select name="therapist_id" v-model="form.therapist_id">
-            <option v-for="therapist in therapistlist" :key="therapist.id" :value="therapist.id">
-              {{ therapist.name }}
-            </option>
-          </select>
-        </div>
-        <button type="submit">Submit</button>
       </form>
     </div>
     <div class="plan" v-if="Plans">
@@ -28,14 +30,14 @@
         <tr>
           <th>Name</th>
           <th>View</th>
-          <th>Update</th>
-          <th>Destroy</th>
+          <th v-if="loginType === 'patient'">Update</th>
+          <th v-if="loginType === 'patient'">Destroy</th>
         </tr> 
         <tr v-for="plan in Plans" :key="plan.id">
           <td>{{ plan.title }}</td>
           <td><button><a :href="'/show-plan?id=' + plan.id">Show</a></button></td>
-          <td><button><a :href="'/update-plan?id=' + plan.id">Update</a></button></td>
-          <td><button v-on:click="destroy(plan.id)">Destroy</button></td>
+          <td v-if="loginType === 'patient'"><button><a :href="'/update-plan?id=' + plan.id">Update</a></button></td>
+          <td v-if="loginType === 'patient'"><button v-on:click="destroy(plan.id)">Destroy</button></td>
         </tr>
       </table>
     </div>
@@ -65,16 +67,21 @@ export default {
     token.append("token",  this.$store.getters.StateUserToken);
     this.GetPlans();
     this.GetTherapist();
+    //console.log("baseURL = "+axios.defaults.baseURL);
   },
   computed: {
     ...mapGetters({ User: "StateUser" }),
+    
+    loginType: function() {
+      return this.$store.getters.StateuserType;
+    }
   },
   methods: {
     //...mapActions(["GetPlan"]),
     async handleSubmit() {
       var config = {
         method: 'post',
-        url: 'https://sidekiq-therapy-api.herokuapp.com/api/v1/plan_of_cares?plan_of_care[title]='+this.form.name+'&plan_of_care[therapists_id]='+this.form.therapist_id,
+        url: axios.defaults.baseURL+'api/v1/plan_of_cares?plan_of_care[title]='+this.form.name+'&plan_of_care[therapists_id]='+this.form.therapist_id,
         headers: { 
           'X-AUTH-TOKEN': this.$store.getters.StateUserToken
         }
@@ -96,7 +103,7 @@ export default {
       if(confirm("Are you sure")) {
         var config = {
           method: 'delete',
-          url: 'https://sidekiq-therapy-api.herokuapp.com/api/v1/plan_of_cares/'+id,
+          url: axios.defaults.baseURL+'api/v1/plan_of_cares/'+id,
           headers: { 
             'X-AUTH-TOKEN': this.$store.getters.StateUserToken
           }
@@ -118,7 +125,7 @@ export default {
     async GetTherapist() {
       var config = {
         method: 'get',
-        url: 'https://sidekiq-therapy-api.herokuapp.com/api/v1/users',
+        url: axios.defaults.baseURL+'api/v1/users',
         headers: { 
           'X-AUTH-TOKEN': this.$store.getters.StateUserToken
         }
@@ -127,7 +134,7 @@ export default {
       .then((response) => {
           //console.log(response);
           this.therapistlist = response.data; 
-          console.log(this.therapistlist)                ;
+          console.log("therapist==="+this.therapistlist)                ;
         })
       .catch(error => {
           console.log("Error Thrown "+error);
@@ -137,7 +144,7 @@ export default {
     async GetPlans() {
       var config = {
         method: 'get',
-        url: 'https://sidekiq-therapy-api.herokuapp.com/api/v1/plan_of_cares',
+        url: axios.defaults.baseURL+'api/v1/plan_of_cares',
         headers: { 
           'X-AUTH-TOKEN': this.$store.getters.StateUserToken
         }

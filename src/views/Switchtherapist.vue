@@ -78,7 +78,7 @@ export default {
       data.append('patient_history[new_therapists_id]', this.form.new_therapist);
       var config = {
         method: 'post',
-        url: 'https://sidekiq-therapy-api.herokuapp.com/api/v1/users/2/patient_histories',
+        url: axios.defaults.baseURL+'api/v1/users/2/patient_histories',
         headers: { 
           'X-AUTH-TOKEN': this.$store.getters.StateUserToken,
         },
@@ -98,7 +98,7 @@ export default {
     async GetTherapist() {
       var config = {
         method: 'get',
-        url: 'https://sidekiq-therapy-api.herokuapp.com/api/v1/users',
+        url: axios.defaults.baseURL+'api/v1/users',
         headers: { 
           'X-AUTH-TOKEN': this.$store.getters.StateUserToken
         }
@@ -117,7 +117,7 @@ export default {
     async getPlanDetails(event) {
       var config = {
         method: 'get',
-        url: 'https://sidekiq-therapy-api.herokuapp.com/api/v1/plan_of_cares/'+event.target.value,
+        url: axios.defaults.baseURL+'api/v1/plan_of_cares/'+event.target.value,
         headers: { 
           'X-AUTH-TOKEN': this.$store.getters.StateUserToken
         }
@@ -142,7 +142,7 @@ export default {
     async GetPlans() {
       var config = {
         method: 'get',
-        url: 'https://sidekiq-therapy-api.herokuapp.com/api/v1/plan_of_cares',
+        url: axios.defaults.baseURL+'api/v1/plan_of_cares',
         headers: { 
           'X-AUTH-TOKEN': this.$store.getters.StateUserToken
         }

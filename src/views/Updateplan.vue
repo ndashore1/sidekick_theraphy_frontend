@@ -54,7 +54,7 @@ export default {
     async ShowPlan() {
       var config = {
         method: 'get',
-        url: 'https://sidekiq-therapy-api.herokuapp.com/api/v1/plan_of_cares/'+this.$route.query.id,
+        url: axios.defaults.baseURL+'api/v1/plan_of_cares/'+this.$route.query.id,
         headers: { 
           'X-AUTH-TOKEN': this.$store.getters.StateUserToken
         }
@@ -80,7 +80,7 @@ export default {
     async GetTherapist() {
       var config = {
         method: 'get',
-        url: 'https://sidekiq-therapy-api.herokuapp.com/api/v1/users',
+        url: axios.defaults.baseURL+'api/v1/users',
         headers: { 
           'X-AUTH-TOKEN': this.$store.getters.StateUserToken
         }
@@ -98,7 +98,7 @@ export default {
     async UpdatePlan() {
       var config = {
         method: 'patch',
-        url: 'https://sidekiq-therapy-api.herokuapp.com/api/v1/plan_of_cares/'+this.$route.query.id+'?plan_of_care[title]='+this.form.name+'&plan_of_care[therapists_id]='+this.form.therapist_id,
+        url: axios.defaults.baseURL+'api/v1/plan_of_cares/'+this.$route.query.id+'?plan_of_care[title]='+this.form.name+'&plan_of_care[therapists_id]='+this.form.therapist_id,
         headers: { 
           'X-AUTH-TOKEN': this.$store.getters.StateUserToken
         }
