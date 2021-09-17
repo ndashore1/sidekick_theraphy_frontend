@@ -23,7 +23,7 @@
                     <span v-for="details in singlenote.observation" :key="details"> 
                       <button v-for="single in details.split('')" :key="single" class="" style="margin-right: 5px;">{{single}}</button>                      
                     </span> 
-                    <p>{{singlenote.errors}}</p>                   
+                    <p>Errors: {{singlenote.errors}}</p>                   
                   </div>
                 </td>
             </tr>
