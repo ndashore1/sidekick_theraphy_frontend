@@ -55,14 +55,14 @@
                   <input name="added_note_error" v-model="form.added_note_error[index].errors">
                 </td>
                 
-                <td><button @click="deleteFind(index)">Delete Note</button></td>
+                <td><button type="button" @click="deleteNote(index)">Delete Note</button></td>
               </tr>
             </table>            
             <br>
             
           </div>
-          <button @click="addFind">
-            Add Note
+          <button type="button" @click="addNote">
+            Add New Note
           </button>
           <button type="submit">Update</button>
         </form>
@@ -107,15 +107,19 @@ export default {
     handleInput: function(index, value) {
       this.form.note_list_oberver[index].observation += value;      
     },
-    addFind: function () {
-      this.form.note_list.push({ value: '' });
-      this.form.note_list_oberver.push({ value: '+-' });
+    addNote: function () {      
+      //this.form.note_list.push({ value: '' });
+      //this.form.note_list_oberver.push({ value: '' });
+      //this.form.added_note_error.push({ value: '' });
+      this.form.note_list.push('');
+      this.form.note_list_oberver.push({ observation: '' });
+      this.form.added_note_error.push({ errors: '' });
+      
     },
-    deleteFind: function (index) {
-      //console.log(index);
-      //console.log(this.form.note_list);
+    deleteNote: function (index) {      
       this.form.note_list.splice(index, 1);
       this.form.note_list_oberver.splice(index, 1);
+      this.form.added_note_error.splice(index, 1);
     },
 
     async UpdateGoal() {

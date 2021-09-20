@@ -26,8 +26,9 @@
           </select>
         </div>
         <div>
-          <label for="name">Add comma seperated notes:</label>
-          <input type="text" name="goal_notes" v-model="form.notes" />
+          <!-- <label for="name">Add comma seperated notes:</label> -->
+          <!-- <input type="text" name="goal_notes" v-model="form.notes" /> -->
+          <textarea name="goal_notes" v-model="form.notes" placeholder="Add comma seperated notes"></textarea>
         </div>
         <button  class="btn btn-info" type="submit">Submit</button>
       </form>
@@ -66,7 +67,7 @@ export default {
       console.log(this.form.notes);
       notes_array = this.form.notes.split(",");
       notes_array.forEach(function(note) {
-        note_result[ note.replace(/\s{2,}/g, '').trim() ]= {observation:'-+'}
+        note_result[ note.replace(/\s{2,}/g, '').trim() ]= {observation:''}
       });
       var data = JSON.stringify({
         "goals": {
